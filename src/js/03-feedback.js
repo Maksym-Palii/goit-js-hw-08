@@ -5,11 +5,11 @@ const emailInputEl = document.querySelector('input');
 const messageInputEl = document.querySelector('textarea');
 
 formEl.addEventListener('input', throttle(dataFormEl, 500));
-formEl.addEventListener('submit', cleanFormEl);
+formEl.addEventListener('submit', onFormSubmit);
 
 const STORAGE_KEY_DATAFORM = 'feedback-form-state';
 
-const formData = JSON.parse(localStorage.getItem(STORAGE_KEY_DATAFORM)) || {};
+let formData = JSON.parse(localStorage.getItem(STORAGE_KEY_DATAFORM)) || {};
 
 auditLocalStorage();
 
@@ -19,11 +19,12 @@ function dataFormEl(evt) {
   localStorage.setItem(STORAGE_KEY_DATAFORM, JSON.stringify(formData));
 }
 
-function cleanFormEl(evt) {
+function onFormSubmit(evt) {
   evt.preventDefault();
   console.log(formData);
   evt.currentTarget.reset();
   localStorage.removeItem(STORAGE_KEY_DATAFORM);
+  formData = {};
 }
 
 function auditLocalStorage() {
